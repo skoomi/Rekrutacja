@@ -1,6 +1,7 @@
 package com.skowron.Rekrutacja.services.fileWriter;
 
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,11 +11,12 @@ import java.util.function.Function;
 
 public abstract class JsonFileWriterService<T> implements FileWriterService<T> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final Path outputDir;
     private final Function<T, String> fileNameProvider;
 
-    public JsonFileWriterService(String outputDir, Function<T, String> fileNameProvider) {
+    public JsonFileWriterService(ObjectMapper objectMapper, String outputDir, Function<T, String> fileNameProvider) {
+        this.objectMapper = objectMapper;
         this.outputDir = Paths.get(outputDir);
         this.fileNameProvider = fileNameProvider;
 
@@ -29,12 +31,13 @@ public abstract class JsonFileWriterService<T> implements FileWriterService<T> {
     public void saveObjectToFile(T object) {
         Path filePath = outputDir.resolve(fileNameProvider.apply(object));
 
-        String json = objectMapper.writeValueAsString(object);
-
         try {
+            String json = objectMapper.writeValueAsString(object);
             Files.writeString(filePath, json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error while parsing JSON", e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while saving to file",e);
         }
     }
 }
