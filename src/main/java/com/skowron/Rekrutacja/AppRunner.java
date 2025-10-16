@@ -3,6 +3,8 @@ package com.skowron.Rekrutacja;
 import com.skowron.Rekrutacja.models.Post;
 import com.skowron.Rekrutacja.services.posts.PostsService;
 import com.skowron.Rekrutacja.services.fileWriter.FileWriterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,6 +15,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Component
 public class AppRunner implements ApplicationRunner {
+    private static final Logger logger = LoggerFactory.getLogger(AppRunner.class);
 
     private final PostsService postsService;
     private final FileWriterService<Post> postToJsonService;
@@ -30,5 +33,6 @@ public class AppRunner implements ApplicationRunner {
         for (Post post : posts) {
             postToJsonService.saveObjectToFile(post);
         }
+        logger.info("All posts saved");
     }
 }
