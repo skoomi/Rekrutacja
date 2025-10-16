@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skowron.Rekrutacja.repositories.FileRepository;
 
+import java.io.IOException;
 import java.util.function.Function;
 
 public abstract class JsonFileWriterService<T> implements FileWriterService<T> {
@@ -30,6 +31,8 @@ public abstract class JsonFileWriterService<T> implements FileWriterService<T> {
             fileRepository.save(outputDir, fileName, json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error while parsing JSON", e);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error while saving to file", e);
         }
     }
 }
