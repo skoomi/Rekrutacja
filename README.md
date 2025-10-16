@@ -1,3 +1,5 @@
+<img width="758" height="57" alt="image" src="https://github.com/user-attachments/assets/220601ac-9b23-44d4-a075-e461ed251761" />
+
 Default values are saved in properties file: \
 posts endpoint: https://jsonplaceholder.typicode.com/posts \
 directory for saving files: output/posts 
