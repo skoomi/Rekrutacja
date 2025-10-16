@@ -2,7 +2,8 @@ package com.skowron.Rekrutacja;
 
 import com.skowron.Rekrutacja.models.Post;
 import com.skowron.Rekrutacja.services.PostsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.skowron.Rekrutacja.services.fileWriter.FileWriterService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -14,15 +15,19 @@ import java.util.List;
 public class AppRunner implements ApplicationRunner {
 
     private final PostsService postsService;
+    private final FileWriterService<Post> postToJsonService;
 
-    @Autowired
-    public AppRunner(PostsService postsService) {
+    public AppRunner(
+            PostsService postsService,
+            @Qualifier("postToJsonFileWriterService") FileWriterService<Post> postToJsonService) {
         this.postsService = postsService;
+        this.postToJsonService = postToJsonService;
     }
 
     @Override
     public void run(ApplicationArguments args) {
         List<Post> posts = postsService.getPosts();
-        System.out.println("Finished");
+        Post post = new Post(12,1, "tttt","bbbb");
+        postToJsonService.saveObjectToFile(post);
     }
 }
