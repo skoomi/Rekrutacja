@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostToJsonFileWriterService extends JsonFileWriterService<Post> {
 
-    public PostToJsonFileWriterService(@Value("posty") String outputDir) {
+    public PostToJsonFileWriterService(@Value("${app.outputDir.posts:output/posts}") String outputDir) {
         super(outputDir, post -> post.id() + ".json");
     }
 }
