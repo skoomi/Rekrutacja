@@ -20,7 +20,6 @@ public class AppRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         Post post = new Post(12,1, "tttt","bbbb");
-//        JsonFileWriter.saveObjectToJsonFile(post, post.id() + ".json");
         postToJsonService.saveObjectToFile(post);
     }
 }
