@@ -1,7 +1,7 @@
 package com.skowron.Rekrutacja;
 
 import com.skowron.Rekrutacja.models.Post;
-import com.skowron.Rekrutacja.services.PostsService;
+import com.skowron.Rekrutacja.services.posts.PostsService;
 import com.skowron.Rekrutacja.services.fileWriter.FileWriterService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
@@ -26,8 +26,9 @@ public class AppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        List<Post> posts = postsService.getPosts();
-        Post post = new Post(12,1, "tttt","bbbb");
-        postToJsonService.saveObjectToFile(post);
+        List<Post> posts = postsService.getAll();
+        for (Post post : posts) {
+            postToJsonService.saveObjectToFile(post);
+        }
     }
 }
